@@ -62,17 +62,19 @@ Router.delete('/:id', async (req, res) => {
 Router.post('/update/:id', async (req, res) => {
     try {
         const exercise = await Exercise.findById(req.params.id);
+        console.log("reqBody: ", req.body);
+        console.log("exercie: ", exercise)
         exercise.username = req.body.username;
         exercise.description = req.body.description;
         exercise.duration = Number(req.body.duration);
         exercise.date = Date.parse(req.body.date);
 
+        // console.log("exercise****", exercise)
+
         exercise.save((err, exe) => {
-            if (err) throw new Error("User can't save!");
+            if (err) throw new Error("User can't save!" + err);
             console.log(`Exercise ${exe.description} is saved successfully!`);
-            res.status(200).json({
-                msg: `Exercise ${exe.description} is saved successfully!`
-            })
+            res.sendStatus(200);
         })
 
     }
